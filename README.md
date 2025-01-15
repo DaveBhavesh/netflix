@@ -2,6 +2,9 @@
 
 -Create React App
 -Import Tailwind
+-Header
+-Login Form
+-SignUp Form
 
 
 #Features 

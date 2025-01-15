@@ -1,11 +1,11 @@
-
-import './App.css';
+import Body from "./components/Body";
+import React from "react";
 
 function App() {
   return (
-    <div className="text-3xl font-bold text-red-800">
-      Netflix
-    </div>dasd
+    <div>
+     <Body/>
+    </div>
   );
 }
 
