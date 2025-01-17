@@ -3,8 +3,14 @@
 -Create React App
 -Import Tailwind
 -Header
+-Routing
 -Login Form
 -SignUp Form
+-Form Validation
+-useRef Hook
+-FireBase Setup
+-Deploying our app to production
+-Create SignUp User Account
 
 
 #Features 
