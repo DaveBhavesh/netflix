@@ -1,8 +1,11 @@
 import React, { useState, useRef } from 'react'
 import Header from './Header'
 import {checkValidData} from"../utils/validate"
-import { createUserWithEmailAndPassword,  signInWithEmailAndPassword} from "firebase/auth";
+import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 import { auth } from '../utils/firebase';
+import { useNavigate } from 'react-router-dom';
+import { addUser } from '../utils/userSlice';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
 
@@ -11,6 +14,10 @@ const Login = () => {
 
   const[errorMessage,setErrorMessage] = useState(null);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
@@ -38,7 +45,19 @@ const Login = () => {
           .then((userCredential) => {
          // Signed up 
         const user = userCredential.user;
+        updateProfile(user,{
+          displayName: name.current.value, photoURL: "https://occ-0-2164-325.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXTZ87gWedgajar1VOIJQNIy2U1sulesgGCIouHnReQp2bCq_rcl2zhI9rRDXIzT_X7240ZzVOcfMQ1DXAPdFsyGu2QeFd8.png?r=145"
+        }).then(() => {
+          // Profile updated!
+          const {uid, email, displayName,photoURL} = auth.currentUser;
+          dispatch(addUser({uid : uid, email: email, displayName: displayName, photoURL: photoURL }));
+          navigate("/browse");
+        }).catch((error) => {
+          // An error occurred
+          setErrorMessage(error.message);
+        });
         console.log(user);
+        navigate("/browse");
            // ...
               })
          .catch((error) => {
@@ -56,6 +75,7 @@ const Login = () => {
     // Signed in 
     const user = userCredential.user;
     console.log(user);
+    navigate("/browse");
     // ...
   })
   .catch((error) => {
@@ -80,7 +100,7 @@ const Login = () => {
 
       <h1 className='text-white text-2xl font-bold '>{isSignInForm ? "Sign In" : "Sign Up" }</h1>
 
-      {!isSignInForm && <input type='text' placeholder='Full Name' className='text-white p-2 my-4 rounded-lg w-full bg-gray-500 border-2 ' />}
+      {!isSignInForm && <input ref={name} type='text' placeholder='Full Name' className='text-white p-2 my-4 rounded-lg w-full bg-gray-500 border-2 ' />}
 
       <input ref={email} type='text' placeholder='Email Address' className='text-white p-2 my-4 rounded-lg w-full bg-gray-500 border-2 '/>
       <br/>

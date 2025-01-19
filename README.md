@@ -11,6 +11,11 @@
 -FireBase Setup
 -Deploying our app to production
 -Create SignUp User Account
+-Implement SignIn user API
+-Created our redux store with user slice
+-Implement SignOut 
+-Update Profile
+-Fetch from TMDB
 
 
 #Features 
